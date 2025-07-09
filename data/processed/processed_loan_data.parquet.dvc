@@ -1,0 +1,5 @@
+outs:
+- md5: ee0034682f187a571853e2a73ab41167
+  size: 209742193
+  hash: md5
+  path: processed_loan_data.parquet

@@ -1,0 +1,16 @@
+# Raw Data Directory
+
+This directory contains the original, unmodified datasets.
+
+## Files (DVC Tracked)
+- `loan.csv` - Lending Club loan dataset from Kaggle
+- `loan.csv.dvc` - DVC pointer file for version control
+
+## Usage
+```bash
+# Download data
+make download-data
+
+# Check DVC status
+dvc status
+```

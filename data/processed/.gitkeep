@@ -1,0 +1,16 @@
+# Processed Data Directory
+
+This directory contains cleaned and feature-engineered datasets ready for model training.
+
+## Files (DVC Tracked)
+- `processed_loan_data.parquet` - Processed features with target variables
+- `processed_loan_data.parquet.dvc` - DVC pointer file
+
+## Usage
+```bash
+# Process raw data
+make process-data
+
+# Check processed data
+dvc status
+```
