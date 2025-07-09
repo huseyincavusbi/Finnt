@@ -1,0 +1,124 @@
+# Finntelligence Engine - .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+finnt/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Data files (use DVC instead)
+data/raw/*.csv
+data/processed/*.parquet
+data/processed/*.pkl
+data/external/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/external/.gitkeep
+
+# Model artifacts (use MLflow instead)
+models/*.pkl
+models/*.joblib
+models/*.h5
+!models/.gitkeep
+
+# MLflow
+mlruns/
+mlflow.db
+.mlflow
+
+# DVC
+/data/raw/loan.csv
+/data/processed/processed_loan_data.parquet
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# API keys and secrets
+.env
+kaggle.json
+*.pem
+*.key
+
+# Generated files
+*.csv
+*.xlsx
+*.pdf
+reports/figures/*
+!reports/figures/.gitkeep
+
+# Notebooks output
+notebooks/*.csv
+notebooks/mlruns/
+notebooks/*.png
+notebooks/*.jpg
