@@ -1,188 +1,108 @@
-# Finntelligence Engine
+# Finntelligence Engine: A Personalized Loan Offer API
 
-**Personalized Loan Offer Engine with Profitability Optimization**
+This project is an end-to-end MLOps implementation of a multi-model system that provides personalized, profit-optimized loan offers.
 
-A sophisticated fintech ML system that optimizes loan offers by predicting default probability and customer acceptance rates to maximize profitability.
+## MLOps Workflow Demonstrated
 
-## Project Status
-✅ **Phase 0: Complete** - Environment and project structure established  
-✅ **Phase 1: Complete** - Data acquisition and exploratory analysis  
-✅ **Phase 2: Complete** - Feature engineering and preprocessing  
-✅ **Phase 3: Complete** - Risk model training and MLflow setup  
-✅ **Phase 4: Complete** - Model registration and explainability  
-🚀 **Current**: Migration to GitHub Codespaces  
+This project was built to showcase a robust MLOps workflow. The key practices implemented are:
 
-## Quick Start
+*   **1. Experiment Tracking:** All model training runs were logged to an **MLflow Tracking Server**. This captured parameters, metrics, and model artifacts for every experiment, ensuring full traceability and comparability.
 
-### 🚀 GitHub Codespaces (Recommended)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/huseyincavusbi/t)
+*   **2. Data & Model Versioning:** Large data files and models were versioned using **DVC (Data Version Control)**. This allows us to tie specific model versions back to the exact data they were trained on, ensuring perfect reproducibility without committing large files to Git.
 
-1. Click the Codespaces badge above or create a new Codespace from your repository
-2. Wait for the environment to set up automatically (2-3 minutes)
-3. Run the quick setup: `./setup.sh`
-4. Start exploring: `make notebook`
+*   **3. Model Registry:** The best-performing models from our experiments were promoted to a formal **MLflow Model Registry**. This centralized, versioned artifact store manages the model lifecycle from "Staging" to "Production."
 
-### 🖥️ Local Development
-```bash
-# Clone the repository
-git clone https://github.com/huseyincaavusbi/t.git
-cd t
+*   **4. Code Refactoring & Modularity:** Initial exploration was done in Jupyter Notebooks, but all final logic (data processing, model training, API serving) was refactored into modular Python scripts within the `src/` directory.
 
-# Set up environment
-make setup
+*   **5. Model Serving as a Service:** The final engine, which integrates both the Risk and Acceptance models, is served via a **FastAPI** REST endpoint. This decouples the model logic from any single application and makes it available as a callable service.
 
-# Quick start
-./setup.sh
-```
+*   **6. Dependency and Environment Management:** The project environment is managed by `uv` and all dependencies are pinned in a `requirements.txt` file, ensuring a consistent and reproducible setup.
 
-### 📊 MLflow & Jupyter Access
-```bash
-make notebook    # Start Jupyter Lab (Port 8888)
-make mlflow      # Start MLflow UI (Port 5000)
-make help        # Show all available commands
-```
+## System Architecture
 
-## Architecture Overview
+The Finntelligence Engine consists of two complementary models:
 
-This system combines three key components:
-1. **Default Risk Model**: Predicts P(Default) for loan applications
-2. **Acceptance Model**: Predicts P(Acceptance) given interest rates
-3. **Optimization Engine**: Maximizes expected profit per customer
+- **Risk Assessment Model**: Predicts the probability of loan default based on customer characteristics
+- **Acceptance Prediction Model**: Estimates the likelihood of loan offer acceptance based on terms and customer profile
+
+These models work together to optimize loan offers by balancing risk exposure with acceptance probability.
 
 ## Project Structure
+
 ```
-finntelligence-engine/
-├── .devcontainer/          # GitHub Codespaces configuration
-├── .github/workflows/      # CI/CD pipelines
-├── src/                    # Core ML modules
-│   ├── finntelligence/     # Main package
-│   └── train_risk_model.py # Production training script
-├── notebooks/              # Exploratory data analysis
-├── data/                   # Data storage (versioned with DVC)
-├── tests/                  # Unit and integration tests
-├── models/                 # Trained model artifacts
-├── configs/                # Configuration files
-├── api/                    # FastAPI service endpoints
-├── mlruns/                 # MLflow experiment tracking
-├── Makefile               # Development commands
-└── requirements.txt       # Python dependencies
+finnt/
+├── README.md                    # Project documentation
+├── requirements.txt             # Python dependencies
+├── .gitignore                  # Git ignore rules
+├── data/                       # Data management
+│   ├── raw/                    # Original datasets (DVC tracked)
+│   ├── processed/              # Processed data (DVC tracked)
+│   └── external/               # External data sources (if any)
+├── notebooks/                  # Jupyter notebooks for exploration
+│   ├── 01-EDA-and-Data-Cleaning.ipynb
+│   ├── 02-Feature-Engineering.ipynb
+│   ├── 03-Risk-Model-Training.ipynb
+│   ├── 04-Model-Registration-and-Explainability.ipynb
+│   └── 05-Acceptance-Model-Training.ipynb
+├── src/                        # Production code
+│   ├── main_api.py             # FastAPI application
+│   ├── schemas.py              # Pydantic models
+│   ├── train_risk_model.py     # Risk model training
+│   └── finntelligence/         # Core package
+├── models/                     # Local model artifacts
+├── mlruns/                     # MLflow experiment tracking
+├── scripts/                    # Utility scripts
 ```
+
+## API Endpoints
+
+The FastAPI server provides the following endpoints:
+
+- `GET /`: Health check and system status
+- `POST /predict`: Generate optimized loan offers
+- `GET /docs`: Interactive API documentation (Swagger UI)
+
+## MLOps Features Implemented
+
+### Experiment Tracking
+- **MLflow Tracking**: All training runs logged with parameters, metrics, and artifacts
+- **Reproducible Experiments**: Consistent random seeds and environment management
+- **Comparative Analysis**: Easy comparison of different model configurations
+
+### Model Management
+- **MLflow Model Registry**: Centralized model versioning and lifecycle management
+- **Staging Workflow**: Models promoted from development to staging to production
+- **Model Lineage**: Full traceability from data to deployed model
+
+### Data Management
+- **DVC Integration**: Large files tracked without bloating Git repository
+- **Data Versioning**: Reproducible data pipelines with version control
+- **Automated Processing**: Scripted data transformation and feature engineering
+
+### Deployment & Serving
+- **FastAPI Framework**: REST API with automatic documentation
+- **Model Loading**: Dynamic model loading from MLflow registry
+- **Error Handling**: Robust error handling and validation
 
 ## Development Workflow
 
-### 🔄 Complete ML Pipeline
-```bash
-make full-pipeline    # Download data → Process → Train models
-```
+1. **Data Exploration**: Initial analysis in Jupyter notebooks
+2. **Feature Engineering**: Systematic feature development and selection
+3. **Model Training**: Iterative model development with MLflow tracking
+4. **Model Registration**: Promotion of best models to registry
+5. **Code Refactoring**: Production-ready code in modular structure
+6. **API Development**: FastAPI service for model serving
+7. **Testing & Validation**: Comprehensive testing of all components
 
-### 🧪 Individual Steps
-```bash
-make download-data    # Download Kaggle dataset
-make process-data     # Feature engineering
-make train-lr         # Train Logistic Regression
-make train-xgb        # Train XGBoost
-make test            # Run test suite
-make lint            # Code quality checks
-```
+## Key Technologies
 
-### 📈 Model Tracking & Visualization
-- **MLflow UI**: Track experiments, compare models, register artifacts
-- **SHAP Explanations**: Understand model decisions and feature importance
-- **DVC**: Version control for data and model artifacts
+- **Machine Learning**: XGBoost, Scikit-learn, SHAP
+- **MLOps**: MLflow, DVC
+- **API Framework**: FastAPI, Uvicorn
+- **Data Processing**: Pandas, NumPy
+- **Environment Management**: uv, pip
+- **Visualization**: Matplotlib, Seaborn
 
-## Data Setup
+## License
 
-### Kaggle API Configuration
-1. Get your API key from [Kaggle Account Settings](https://www.kaggle.com/account)
-2. Create `~/.kaggle/kaggle.json`:
-```json
-{"username":"your_username","key":"your_api_key"}
-```
-3. Download data: `make download-data`
-
-### DVC Remote Storage (Optional)
-```bash
-# Set up cloud storage for data versioning
-dvc remote add -d storage s3://your-bucket/path
-dvc push  # Upload data to remote
-```
-
-## Progress Status
-
-✅ **Phase 0**: Project Setup & Environment  
-✅ **Phase 1**: Data Acquisition & EDA  
-✅ **Phase 2**: Feature Engineering & Preprocessing  
-✅ **Phase 3**: Risk Model Training & MLflow Setup  
-✅ **Phase 4**: Model Registration & Explainability  
-🚀 **Phase 5**: GitHub Codespaces Migration (Current)  
-🔄 **Phase 6**: Acceptance Probability Model (Next)  
-📋 **Phase 7**: Profit Optimization Engine  
-🌐 **Phase 8**: FastAPI Deployment  
-🔧 **Phase 9**: CI/CD & Production Monitoring  
-
-## 🛠️ MLOps Features
-
-- ✅ **Experiment Tracking**: MLflow for model versioning and metrics
-- ✅ **Data Versioning**: DVC for reproducible data pipelines  
-- ✅ **Model Explainability**: SHAP for interpretable AI
-- ✅ **Automated Testing**: pytest for code quality
-- ✅ **CI/CD Pipeline**: GitHub Actions for automated deployment
-- ✅ **Containerization**: Codespaces for consistent environments
-- 🔄 **Model Registry**: Production model management
-- 📋 **API Deployment**: FastAPI for model serving
-- 📋 **Monitoring**: Performance and drift detection
-
-## 📚 Documentation
-
-- [Setup Guide](docs/setup.md) - Detailed environment setup
-- [Data Guide](docs/data.md) - Dataset documentation  
-- [Model Guide](docs/models.md) - Model architecture and training
-- [API Guide](docs/api.md) - REST API documentation
-- [Deployment Guide](docs/deployment.md) - Production deployment
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make changes and test: `make test`
-4. Commit changes: `git commit -m 'Add amazing feature'`
-5. Push to branch: `git push origin feature/amazing-feature`
-6. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-🔄 **Phase 5**: Profit Optimization Engine  
-🔄 **Phase 6**: SHAP Explanations  
-🔄 **Phase 7**: FastAPI Service & Deployment  
-
-### Current Capabilities
-
-**Risk Model (Default Prediction)**
-- Models: Logistic Regression (baseline), XGBoost (performance)
-- Metrics: ROC-AUC, Precision, Recall, F1-Score
-- MLflow Integration: Full experiment tracking & model versioning
-- Business Analysis: Risk threshold optimization
-
-## Development Principles
-- **Reproducibility**: Git + DVC + requirements.txt
-- **Modularity**: Clean separation of concerns
-- **Explainability**: SHAP integration for model interpretability
-- **MLOps Ready**: CI/CD pipeline compatible design
-
-## Quick Start
-
-```bash
-# 1. Activate environment
-source finnt/bin/activate  # or your activation command
-
-# 2. View MLflow experiments
-mlflow ui
-# Then open: http://localhost:5000
-
-# 3. Run notebooks in sequence
-jupyter notebook notebooks/
-```
-
----
-*Generated by Finnt AI Assistant - July 8, 2025*
+This project is licensed under the MIT License - see the LICENSE file for details.
